@@ -247,8 +247,7 @@ const DashboardScreen = ({ navigation }) => {
         </View>
 
         {/* Category & Recent Orders Row */}
-        <View style={styles.rowContainer}>
-          {/* Category Distribution */}
+        {/* <View style={styles.rowContainer}>
           <View style={[styles.chartContainer, styles.halfWidth]}>
             <Text style={styles.sectionTitle}>Top Categories</Text>
             <PieChart
@@ -265,7 +264,7 @@ const DashboardScreen = ({ navigation }) => {
             />
           </View>
 
-          {/* Pending Orders Summary */}
+          Pending Orders Summary
           <View style={[styles.pendingContainer, styles.halfWidth]}>
             <Text style={styles.sectionTitle}>Pending Orders</Text>
             <Text style={styles.pendingCount}>{stats.pendingOrders}</Text>
@@ -277,7 +276,7 @@ const DashboardScreen = ({ navigation }) => {
               <Ionicons name="arrow-forward" size={16} color={colors.white} />
             </TouchableOpacity>
           </View>
-        </View>
+        </View> */}
 
         {/* Recent Activity */}
         <View style={styles.activityContainer}>
@@ -326,6 +325,7 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginBottom: 20
   },
   greeting: {
     fontSize: 14,
