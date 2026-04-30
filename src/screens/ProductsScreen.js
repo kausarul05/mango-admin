@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react'
 import {
   View,
   Text,
@@ -11,23 +11,23 @@ import {
   Animated,
   Image,
   Switch,
-  Dimensions,
-} from 'react-native';
-import { Ionicons, MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
-import colors from '../constants/colors';
-import globalStyles from '../constants/styles';
+  Dimensions
+} from 'react-native'
+import { Ionicons, MaterialIcons, FontAwesome5 } from '@expo/vector-icons'
+import colors from '../constants/colors'
+import globalStyles from '../constants/styles'
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('window')
 
 const ProductsScreen = ({ navigation }) => {
-  const [refreshing, setRefreshing] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
-  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const [refreshing, setRefreshing] = useState(false)
+  const [selectedCategory, setSelectedCategory] = useState('all')
+  const [searchQuery, setSearchQuery] = useState('')
+  const [viewMode, setViewMode] = useState('grid') // 'grid' or 'list'
+  const [selectedProduct, setSelectedProduct] = useState(null)
+  const [modalVisible, setModalVisible] = useState(false)
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false)
+  const fadeAnim = useRef(new Animated.Value(0)).current
 
   const [products, setProducts] = useState([
     {
@@ -39,7 +39,8 @@ const ProductsScreen = ({ navigation }) => {
       discount: 25,
       quantity: 50,
       unit: 'kg',
-      description: 'Premium Alphonso mangoes directly from Ratnagiri. Known for their rich taste and aroma.',
+      description:
+        'Premium Alphonso mangoes directly from Ratnagiri. Known for their rich taste and aroma.',
       images: ['🥭'],
       rating: 4.8,
       reviews: 124,
@@ -47,7 +48,7 @@ const ProductsScreen = ({ navigation }) => {
       isFeatured: true,
       stock: 45,
       sku: 'MAN-ALP-001',
-      createdAt: '2024-01-01',
+      createdAt: '2024-01-01'
     },
     {
       id: '2',
@@ -66,7 +67,7 @@ const ProductsScreen = ({ navigation }) => {
       isFeatured: true,
       stock: 30,
       sku: 'MAN-ORG-002',
-      createdAt: '2024-01-02',
+      createdAt: '2024-01-02'
     },
     {
       id: '3',
@@ -85,7 +86,7 @@ const ProductsScreen = ({ navigation }) => {
       isFeatured: false,
       stock: 25,
       sku: 'ELE-HP-003',
-      createdAt: '2024-01-03',
+      createdAt: '2024-01-03'
     },
     {
       id: '4',
@@ -104,7 +105,7 @@ const ProductsScreen = ({ navigation }) => {
       isFeatured: false,
       stock: 40,
       sku: 'ELE-PB-004',
-      createdAt: '2024-01-04',
+      createdAt: '2024-01-04'
     },
     {
       id: '5',
@@ -123,7 +124,7 @@ const ProductsScreen = ({ navigation }) => {
       isFeatured: true,
       stock: 15,
       sku: 'ELE-SW-005',
-      createdAt: '2024-01-05',
+      createdAt: '2024-01-05'
     },
     {
       id: '6',
@@ -142,7 +143,7 @@ const ProductsScreen = ({ navigation }) => {
       isFeatured: true,
       stock: 20,
       sku: 'MAN-BOX-006',
-      createdAt: '2024-01-06',
+      createdAt: '2024-01-06'
     },
     {
       id: '7',
@@ -161,7 +162,7 @@ const ProductsScreen = ({ navigation }) => {
       isFeatured: false,
       stock: 100,
       sku: 'ACC-PC-007',
-      createdAt: '2024-01-07',
+      createdAt: '2024-01-07'
     },
     {
       id: '8',
@@ -180,82 +181,110 @@ const ProductsScreen = ({ navigation }) => {
       isFeatured: false,
       stock: 200,
       sku: 'ACC-USB-008',
-      createdAt: '2024-01-08',
-    },
-  ]);
+      createdAt: '2024-01-08'
+    }
+  ])
 
   const categories = [
-    { id: 'all', name: 'All Products', icon: 'grid', count: products.length },
-    { id: 'mangoes', name: 'Mangoes', icon: '🥭', count: products.filter(p => p.category === 'mangoes').length },
-    { id: 'electronics', name: 'Electronics', icon: '💻', count: products.filter(p => p.category === 'electronics').length },
-    { id: 'accessories', name: 'Accessories', icon: '📱', count: products.filter(p => p.category === 'accessories').length },
-  ];
+    { id: 'all', name: 'All Products', icon: '', count: products.length },
+    {
+      id: 'mangoes',
+      name: 'Mangoes',
+      icon: '🥭',
+      count: products.filter(p => p.category === 'mangoes').length
+    },
+    {
+      id: 'electronics',
+      name: 'Electronics',
+      icon: '💻',
+      count: products.filter(p => p.category === 'electronics').length
+    },
+    {
+      id: 'accessories',
+      name: 'Accessories',
+      icon: '📱',
+      count: products.filter(p => p.category === 'accessories').length
+    }
+  ]
 
   useEffect(() => {
     Animated.timing(fadeAnim, {
       toValue: 1,
       duration: 800,
-      useNativeDriver: true,
-    }).start();
-  }, []);
+      useNativeDriver: true
+    }).start()
+  }, [])
 
   const onRefresh = async () => {
-    setRefreshing(true);
-    setTimeout(() => setRefreshing(false), 1500);
-  };
+    setRefreshing(true)
+    setTimeout(() => setRefreshing(false), 1500)
+  }
 
-  const toggleProductStatus = (productId) => {
+  const toggleProductStatus = productId => {
     const updatedProducts = products.map(product =>
-      product.id === productId ? { ...product, isActive: !product.isActive } : product
-    );
-    setProducts(updatedProducts);
-    Alert.alert('Success', 'Product status updated successfully');
-  };
+      product.id === productId
+        ? { ...product, isActive: !product.isActive }
+        : product
+    )
+    setProducts(updatedProducts)
+    Alert.alert('Success', 'Product status updated successfully')
+  }
 
   const deleteProduct = () => {
-    const updatedProducts = products.filter(product => product.id !== selectedProduct.id);
-    setProducts(updatedProducts);
-    setDeleteModalVisible(false);
-    setModalVisible(false);
-    Alert.alert('Deleted', `${selectedProduct.name} has been removed`);
-  };
+    const updatedProducts = products.filter(
+      product => product.id !== selectedProduct.id
+    )
+    setProducts(updatedProducts)
+    setDeleteModalVisible(false)
+    setModalVisible(false)
+    Alert.alert('Deleted', `${selectedProduct.name} has been removed`)
+  }
 
   const filteredProducts = products.filter(product => {
-    if (selectedCategory !== 'all' && product.category !== selectedCategory) return false;
+    if (selectedCategory !== 'all' && product.category !== selectedCategory)
+      return false
     if (searchQuery) {
-      return product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-             product.sku.toLowerCase().includes(searchQuery.toLowerCase());
+      return (
+        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.sku.toLowerCase().includes(searchQuery.toLowerCase())
+      )
     }
-    return true;
-  });
+    return true
+  })
 
-  const getCategoryIcon = (category) => {
-    switch(category) {
-      case 'mangoes': return '🥭';
-      case 'electronics': return '💻';
-      case 'accessories': return '📱';
-      default: return '📦';
+  const getCategoryIcon = category => {
+    switch (category) {
+      case 'mangoes':
+        return '🥭'
+      case 'electronics':
+        return '💻'
+      case 'accessories':
+        return '📱'
+      default:
+        return '📦'
     }
-  };
+  }
 
   const ProductCardGrid = ({ product, index }) => {
-    const scaleAnim = useRef(new Animated.Value(0)).current;
-    
+    const scaleAnim = useRef(new Animated.Value(0)).current
+
     useEffect(() => {
       Animated.spring(scaleAnim, {
         toValue: 1,
         delay: index * 50,
-        useNativeDriver: true,
-      }).start();
-    }, []);
+        useNativeDriver: true
+      }).start()
+    }, [])
 
     return (
-      <Animated.View style={[styles.gridCard, { transform: [{ scale: scaleAnim }] }]}>
+      <Animated.View
+        style={[styles.gridCard, { transform: [{ scale: scaleAnim }] }]}
+      >
         <TouchableOpacity
           activeOpacity={0.9}
           onPress={() => {
-            setSelectedProduct(product);
-            setModalVisible(true);
+            setSelectedProduct(product)
+            setModalVisible(true)
           }}
         >
           <View style={styles.gridCardImage}>
@@ -267,75 +296,111 @@ const ProductsScreen = ({ navigation }) => {
             )}
             {product.isFeatured && (
               <View style={styles.featuredBadge}>
-                <Ionicons name="star" size={12} color={colors.white} />
+                <Ionicons name='star' size={12} color={colors.white} />
                 <Text style={styles.featuredText}>Featured</Text>
               </View>
             )}
           </View>
-          
+
           <View style={styles.gridCardContent}>
-            <Text style={styles.productName} numberOfLines={1}>{product.name}</Text>
+            <Text style={styles.productName} numberOfLines={1}>
+              {product.name}
+            </Text>
             <View style={styles.priceContainer}>
               <Text style={styles.currentPrice}>₹{product.price}</Text>
               {product.originalPrice > product.price && (
-                <Text style={styles.originalPrice}>₹{product.originalPrice}</Text>
+                <Text style={styles.originalPrice}>
+                  ₹{product.originalPrice}
+                </Text>
               )}
             </View>
             <View style={styles.ratingContainer}>
-              <Ionicons name="star" size={14} color="#FFB800" />
+              <Ionicons name='star' size={14} color='#FFB800' />
               <Text style={styles.ratingText}>{product.rating}</Text>
               <Text style={styles.reviewsText}>({product.reviews})</Text>
             </View>
             <View style={styles.stockContainer}>
-              <View style={[styles.stockIndicator, { 
-                backgroundColor: product.stock > 20 ? colors.success : product.stock > 5 ? colors.warning : colors.error 
-              }]} />
+              <View
+                style={[
+                  styles.stockIndicator,
+                  {
+                    backgroundColor:
+                      product.stock > 20
+                        ? colors.success
+                        : product.stock > 5
+                        ? colors.warning
+                        : colors.error
+                  }
+                ]}
+              />
               <Text style={styles.stockText}>
-                {product.stock > 20 ? 'In Stock' : product.stock > 5 ? 'Limited' : 'Low Stock'}
+                {product.stock > 20
+                  ? 'In Stock'
+                  : product.stock > 5
+                  ? 'Limited'
+                  : 'Low Stock'}
               </Text>
             </View>
           </View>
-          
+
           <View style={styles.gridCardActions}>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.editButton}
               onPress={() => navigation.navigate('AddEditProduct', { product })}
             >
-              <Ionicons name="create-outline" size={18} color={colors.primary} />
+              <Ionicons
+                name='create-outline'
+                size={18}
+                color={colors.primary}
+              />
             </TouchableOpacity>
             <Switch
               value={product.isActive}
               onValueChange={() => toggleProductStatus(product.id)}
-              trackColor={{ false: colors.grayLight, true: colors.primary + '80' }}
+              trackColor={{
+                false: colors.grayLight,
+                true: colors.primary + '80'
+              }}
               thumbColor={product.isActive ? colors.primary : colors.gray}
             />
           </View>
         </TouchableOpacity>
       </Animated.View>
-    );
-  };
+    )
+  }
 
   const ProductCardList = ({ product, index }) => {
-    const slideAnim = useRef(new Animated.Value(0)).current;
-    
+    const slideAnim = useRef(new Animated.Value(0)).current
+
     useEffect(() => {
       Animated.timing(slideAnim, {
         toValue: 1,
         delay: index * 100,
-        useNativeDriver: true,
-      }).start();
-    }, []);
+        useNativeDriver: true
+      }).start()
+    }, [])
 
     return (
-      <Animated.View style={[styles.listCard, { transform: [{ translateX: slideAnim.interpolate({
-        inputRange: [0, 1],
-        outputRange: [50, 0]
-      })}] }]}>
+      <Animated.View
+        style={[
+          styles.listCard,
+          {
+            transform: [
+              {
+                translateX: slideAnim.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [50, 0]
+                })
+              }
+            ]
+          }
+        ]}
+      >
         <TouchableOpacity
           activeOpacity={0.9}
           onPress={() => {
-            setSelectedProduct(product);
-            setModalVisible(true);
+            setSelectedProduct(product)
+            setModalVisible(true)
           }}
           style={styles.listCardTouchable}
         >
@@ -347,61 +412,74 @@ const ProductsScreen = ({ navigation }) => {
               </View>
             )}
           </View>
-          
+
           <View style={styles.listCardContent}>
             <View style={styles.listCardHeader}>
               <Text style={styles.listProductName}>{product.name}</Text>
               <Switch
                 value={product.isActive}
                 onValueChange={() => toggleProductStatus(product.id)}
-                trackColor={{ false: colors.grayLight, true: colors.primary + '80' }}
+                trackColor={{
+                  false: colors.grayLight,
+                  true: colors.primary + '80'
+                }}
                 thumbColor={product.isActive ? colors.primary : colors.gray}
                 style={styles.listSwitch}
               />
             </View>
-            
+
             <Text style={styles.productSku}>SKU: {product.sku}</Text>
-            
+
             <View style={styles.listPriceContainer}>
               <Text style={styles.listCurrentPrice}>₹{product.price}</Text>
               {product.originalPrice > product.price && (
-                <Text style={styles.listOriginalPrice}>₹{product.originalPrice}</Text>
+                <Text style={styles.listOriginalPrice}>
+                  ₹{product.originalPrice}
+                </Text>
               )}
             </View>
-            
+
             <View style={styles.listMetaContainer}>
               <View style={styles.listRatingContainer}>
-                <Ionicons name="star" size={12} color="#FFB800" />
+                <Ionicons name='star' size={12} color='#FFB800' />
                 <Text style={styles.listRatingText}>{product.rating}</Text>
                 <Text style={styles.listReviewsText}>({product.reviews})</Text>
               </View>
               <View style={styles.listStockContainer}>
-                <View style={[styles.listStockIndicator, { 
-                  backgroundColor: product.stock > 20 ? colors.success : product.stock > 5 ? colors.warning : colors.error 
-                }]} />
-                <Text style={styles.listStockText}>
-                  {product.stock} left
-                </Text>
+                <View
+                  style={[
+                    styles.listStockIndicator,
+                    {
+                      backgroundColor:
+                        product.stock > 20
+                          ? colors.success
+                          : product.stock > 5
+                          ? colors.warning
+                          : colors.error
+                    }
+                  ]}
+                />
+                <Text style={styles.listStockText}>{product.stock} left</Text>
               </View>
             </View>
           </View>
-          
+
           <View style={styles.listCardActions}>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.listEditButton}
               onPress={() => navigation.navigate('AddEditProduct', { product })}
             >
-              <Ionicons name="create-outline" size={20} color={colors.white} />
+              <Ionicons name='create-outline' size={20} color={colors.white} />
             </TouchableOpacity>
           </View>
         </TouchableOpacity>
       </Animated.View>
-    );
-  };
+    )
+  }
 
   const ProductDetailModal = () => (
     <Modal
-      animationType="slide"
+      animationType='slide'
       transparent={true}
       visible={modalVisible}
       onRequestClose={() => setModalVisible(false)}
@@ -412,79 +490,127 @@ const ProductsScreen = ({ navigation }) => {
             {selectedProduct && (
               <>
                 <View style={styles.modalImageContainer}>
-                  <Text style={styles.modalEmoji}>{selectedProduct.images[0]}</Text>
-                  <TouchableOpacity 
+                  <Text style={styles.modalEmoji}>
+                    {selectedProduct.images[0]}
+                  </Text>
+                  <TouchableOpacity
                     style={styles.modalCloseBtn}
                     onPress={() => setModalVisible(false)}
                   >
-                    <Ionicons name="close" size={24} color={colors.white} />
+                    <Ionicons name='close' size={24} color={colors.white} />
                   </TouchableOpacity>
                 </View>
 
                 <View style={styles.modalBody}>
-                  <Text style={styles.modalProductName}>{selectedProduct.name}</Text>
-                  
+                  <Text style={styles.modalProductName}>
+                    {selectedProduct.name}
+                  </Text>
+
                   <View style={styles.modalRatingRow}>
                     <View style={styles.modalRating}>
-                      <Ionicons name="star" size={16} color="#FFB800" />
-                      <Text style={styles.modalRatingText}>{selectedProduct.rating}</Text>
+                      <Ionicons name='star' size={16} color='#FFB800' />
+                      <Text style={styles.modalRatingText}>
+                        {selectedProduct.rating}
+                      </Text>
                     </View>
-                    <Text style={styles.modalReviews}>({selectedProduct.reviews} reviews)</Text>
+                    <Text style={styles.modalReviews}>
+                      ({selectedProduct.reviews} reviews)
+                    </Text>
                     <View style={styles.modalSku}>
-                      <Text style={styles.modalSkuText}>SKU: {selectedProduct.sku}</Text>
+                      <Text style={styles.modalSkuText}>
+                        SKU: {selectedProduct.sku}
+                      </Text>
                     </View>
                   </View>
 
                   <View style={styles.modalPriceRow}>
-                    <Text style={styles.modalCurrentPrice}>₹{selectedProduct.price}</Text>
+                    <Text style={styles.modalCurrentPrice}>
+                      ₹{selectedProduct.price}
+                    </Text>
                     {selectedProduct.originalPrice > selectedProduct.price && (
                       <>
-                        <Text style={styles.modalOriginalPrice}>₹{selectedProduct.originalPrice}</Text>
-                        <Text style={styles.modalDiscount}>{selectedProduct.discount}% OFF</Text>
+                        <Text style={styles.modalOriginalPrice}>
+                          ₹{selectedProduct.originalPrice}
+                        </Text>
+                        <Text style={styles.modalDiscount}>
+                          {selectedProduct.discount}% OFF
+                        </Text>
                       </>
                     )}
                   </View>
 
                   <View style={styles.modalInfoGrid}>
                     <View style={styles.modalInfoItem}>
-                      <Ionicons name="cube-outline" size={20} color={colors.primary} />
+                      <Ionicons
+                        name='cube-outline'
+                        size={20}
+                        color={colors.primary}
+                      />
                       <Text style={styles.modalInfoLabel}>Stock</Text>
-                      <Text style={styles.modalInfoValue}>{selectedProduct.stock} units</Text>
+                      <Text style={styles.modalInfoValue}>
+                        {selectedProduct.stock} units
+                      </Text>
                     </View>
                     <View style={styles.modalInfoItem}>
-                      <Ionicons name="scale-outline" size={20} color={colors.primary} />
+                      <Ionicons
+                        name='scale-outline'
+                        size={20}
+                        color={colors.primary}
+                      />
                       <Text style={styles.modalInfoLabel}>Quantity</Text>
-                      <Text style={styles.modalInfoValue}>{selectedProduct.quantity} {selectedProduct.unit}</Text>
+                      <Text style={styles.modalInfoValue}>
+                        {selectedProduct.quantity} {selectedProduct.unit}
+                      </Text>
                     </View>
                     <View style={styles.modalInfoItem}>
-                      <Ionicons name="calendar-outline" size={20} color={colors.primary} />
+                      <Ionicons
+                        name='calendar-outline'
+                        size={20}
+                        color={colors.primary}
+                      />
                       <Text style={styles.modalInfoLabel}>Added</Text>
-                      <Text style={styles.modalInfoValue}>{selectedProduct.createdAt}</Text>
+                      <Text style={styles.modalInfoValue}>
+                        {selectedProduct.createdAt}
+                      </Text>
                     </View>
                   </View>
 
                   <View style={styles.modalSection}>
                     <Text style={styles.modalSectionTitle}>Description</Text>
-                    <Text style={styles.modalDescription}>{selectedProduct.description}</Text>
+                    <Text style={styles.modalDescription}>
+                      {selectedProduct.description}
+                    </Text>
                   </View>
 
                   <View style={styles.modalActions}>
-                    <TouchableOpacity 
+                    <TouchableOpacity
                       style={styles.modalEditButton}
                       onPress={() => {
-                        setModalVisible(false);
-                        navigation.navigate('AddEditProduct', { product: selectedProduct });
+                        setModalVisible(false)
+                        navigation.navigate('AddEditProduct', {
+                          product: selectedProduct
+                        })
                       }}
                     >
-                      <Ionicons name="create-outline" size={20} color={colors.white} />
-                      <Text style={styles.modalEditButtonText}>Edit Product</Text>
+                      <Ionicons
+                        name='create-outline'
+                        size={20}
+                        color={colors.white}
+                      />
+                      <Text style={styles.modalEditButtonText}>
+                        Edit Product
+                      </Text>
                     </TouchableOpacity>
-                    
-                    <TouchableOpacity 
+
+                    <TouchableOpacity
                       style={styles.modalDeleteButton}
                       onPress={() => setDeleteModalVisible(true)}
                     >
-                      <Ionicons name="trash-outline" size={20} color={colors.error} />
+                      <Ionicons
+                        name='trash-outline'
+                        size={20}
+                        color={colors.error}
+                      />
                       <Text style={styles.modalDeleteButtonText}>Delete</Text>
                     </TouchableOpacity>
                   </View>
@@ -495,11 +621,11 @@ const ProductsScreen = ({ navigation }) => {
         </View>
       </View>
     </Modal>
-  );
+  )
 
   const DeleteConfirmationModal = () => (
     <Modal
-      animationType="fade"
+      animationType='fade'
       transparent={true}
       visible={deleteModalVisible}
       onRequestClose={() => setDeleteModalVisible(false)}
@@ -507,20 +633,21 @@ const ProductsScreen = ({ navigation }) => {
       <View style={styles.deleteModalOverlay}>
         <View style={styles.deleteModalContent}>
           <View style={styles.deleteModalIcon}>
-            <Ionicons name="alert-triangle" size={50} color={colors.error} />
+            <Ionicons name='alert-triangle' size={50} color={colors.error} />
           </View>
           <Text style={styles.deleteModalTitle}>Delete Product?</Text>
           <Text style={styles.deleteModalText}>
-            Are you sure you want to delete "{selectedProduct?.name}"? This action cannot be undone.
+            Are you sure you want to delete "{selectedProduct?.name}"? This
+            action cannot be undone.
           </Text>
           <View style={styles.deleteModalButtons}>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.deleteModalCancelBtn}
               onPress={() => setDeleteModalVisible(false)}
             >
               <Text style={styles.deleteModalCancelText}>Cancel</Text>
             </TouchableOpacity>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.deleteModalConfirmBtn}
               onPress={deleteProduct}
             >
@@ -530,7 +657,7 @@ const ProductsScreen = ({ navigation }) => {
         </View>
       </View>
     </Modal>
-  );
+  )
 
   return (
     <View style={styles.container}>
@@ -540,11 +667,11 @@ const ProductsScreen = ({ navigation }) => {
           <Text style={styles.headerTitle}>Products</Text>
           <Text style={styles.headerSubtitle}>Manage your product catalog</Text>
         </View>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.addButton}
           onPress={() => navigation.navigate('AddEditProduct')}
         >
-          <Ionicons name="add" size={24} color={colors.white} />
+          <Ionicons name='add' size={24} color={colors.white} />
           <Text style={styles.addButtonText}>Add New</Text>
         </TouchableOpacity>
       </View>
@@ -552,41 +679,49 @@ const ProductsScreen = ({ navigation }) => {
       {/* Search and View Toggle */}
       <View style={styles.searchSection}>
         <View style={styles.searchContainer}>
-          <Ionicons name="search-outline" size={20} color={colors.textSecondary} />
+          <Ionicons
+            name='search-outline'
+            size={20}
+            color={colors.textSecondary}
+          />
           <TextInput
             style={styles.searchInput}
-            placeholder="Search products..."
+            placeholder='Search products...'
             placeholderTextColor={colors.textDisabled}
             value={searchQuery}
             onChangeText={setSearchQuery}
           />
           {searchQuery !== '' && (
             <TouchableOpacity onPress={() => setSearchQuery('')}>
-              <Ionicons name="close-circle" size={20} color={colors.textSecondary} />
+              <Ionicons
+                name='close-circle'
+                size={20}
+                color={colors.textSecondary}
+              />
             </TouchableOpacity>
           )}
         </View>
-        
-        <TouchableOpacity 
+
+        <TouchableOpacity
           style={styles.viewToggle}
           onPress={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
         >
-          <Ionicons 
-            name={viewMode === 'grid' ? 'list-outline' : 'grid-outline'} 
-            size={22} 
-            color={colors.primary} 
+          <Ionicons
+            name={viewMode === 'grid' ? 'list-outline' : 'grid-outline'}
+            size={22}
+            color={colors.primary}
           />
         </TouchableOpacity>
       </View>
 
       {/* Category Filters */}
-      <ScrollView 
-        horizontal 
+      <ScrollView
+        horizontal
         showsHorizontalScrollIndicator={false}
         style={styles.categoriesContainer}
         contentContainerStyle={styles.categoriesContent}
       >
-        {categories.map((category) => (
+        {categories.map(category => (
           <TouchableOpacity
             key={category.id}
             style={[
@@ -595,23 +730,28 @@ const ProductsScreen = ({ navigation }) => {
             ]}
             onPress={() => setSelectedCategory(category.id)}
           >
-            <Text style={styles.categoryIcon}>
-              {category.icon}
-            </Text>
-            <Text style={[
-              styles.categoryName,
-              selectedCategory === category.id && styles.categoryNameActive
-            ]}>
+            <Text style={styles.categoryIcon}>{category.icon}</Text>
+            <Text
+              style={[
+                styles.categoryName,
+                selectedCategory === category.id && styles.categoryNameActive
+              ]}
+            >
               {category.name}
             </Text>
-            <View style={[
-              styles.categoryCount,
-              selectedCategory === category.id && styles.categoryCountActive
-            ]}>
-              <Text style={[
-                styles.categoryCountText,
-                selectedCategory === category.id && styles.categoryCountTextActive
-              ]}>
+            <View
+              style={[
+                styles.categoryCount,
+                selectedCategory === category.id && styles.categoryCountActive
+              ]}
+            >
+              <Text
+                style={[
+                  styles.categoryCountText,
+                  selectedCategory === category.id &&
+                    styles.categoryCountTextActive
+                ]}
+              >
                 {category.count}
               </Text>
             </View>
@@ -622,13 +762,15 @@ const ProductsScreen = ({ navigation }) => {
       {/* Products List/Grid */}
       <Animated.FlatList
         data={filteredProducts}
-        keyExtractor={(item) => item.id}
+        keyExtractor={item => item.id}
         numColumns={viewMode === 'grid' ? 2 : 1}
         key={viewMode}
-        renderItem={({ item, index }) => 
-          viewMode === 'grid' ? 
-            <ProductCardGrid product={item} index={index} /> : 
+        renderItem={({ item, index }) =>
+          viewMode === 'grid' ? (
+            <ProductCardGrid product={item} index={index} />
+          ) : (
             <ProductCardList product={item} index={index} />
+          )
         }
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.productsList}
@@ -637,12 +779,14 @@ const ProductsScreen = ({ navigation }) => {
         }
         ListEmptyComponent={
           <View style={styles.emptyState}>
-            <Ionicons name="cube-outline" size={80} color={colors.gray} />
+            <Ionicons name='cube-outline' size={80} color={colors.gray} />
             <Text style={styles.emptyStateTitle}>No Products Found</Text>
             <Text style={styles.emptyStateText}>
-              {searchQuery ? 'Try different search terms' : 'Add your first product to get started'}
+              {searchQuery
+                ? 'Try different search terms'
+                : 'Add your first product to get started'}
             </Text>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.emptyStateButton}
               onPress={() => navigation.navigate('AddEditProduct')}
             >
@@ -656,13 +800,13 @@ const ProductsScreen = ({ navigation }) => {
       <ProductDetailModal />
       <DeleteConfirmationModal />
     </View>
-  );
-};
+  )
+}
 
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: colors.background,
+    backgroundColor: colors.background
   },
   header: {
     backgroundColor: colors.primary,
@@ -671,17 +815,17 @@ const styles = {
     paddingBottom: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   headerTitle: {
     fontSize: 28,
     fontWeight: 'bold',
     color: colors.white,
-    marginBottom: 5,
+    marginBottom: 5
   },
   headerSubtitle: {
     fontSize: 13,
-    color: colors.white + 'CC',
+    color: colors.white + 'CC'
   },
   addButton: {
     flexDirection: 'row',
@@ -689,19 +833,19 @@ const styles = {
     backgroundColor: colors.white + '20',
     paddingHorizontal: 15,
     paddingVertical: 8,
-    borderRadius: 25,
+    borderRadius: 25
   },
   addButtonText: {
     color: colors.white,
     marginLeft: 5,
     fontWeight: '600',
-    fontSize: 14,
+    fontSize: 14
   },
   searchSection: {
     flexDirection: 'row',
     alignItems: 'center',
     margin: 15,
-    gap: 10,
+    gap: 10
   },
   searchContainer: {
     flex: 1,
@@ -714,74 +858,82 @@ const styles = {
     shadowColor: colors.shadowColor,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
-    shadowRadius: 4,
+    shadowRadius: 4
   },
   searchInput: {
     flex: 1,
     paddingVertical: 12,
     fontSize: 14,
     color: colors.textPrimary,
-    marginLeft: 10,
+    marginLeft: 10
   },
   viewToggle: {
     backgroundColor: colors.white,
     padding: 10,
     borderRadius: 12,
-    elevation: 3,
+    elevation: 3
   },
+
   categoriesContainer: {
     marginBottom: 10,
+    maxHeight: 50 // Fixed height to prevent overflow
   },
   categoriesContent: {
     paddingHorizontal: 15,
     paddingVertical: 5,
+    alignItems: 'center' // Center items vertically
   },
   categoryChip: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: colors.white,
-    paddingHorizontal: 15,
-    paddingVertical: 8,
-    borderRadius: 25,
-    marginRight: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 6, // Reduced from 8
+    borderRadius: 20,
+    marginRight: 8,
     elevation: 2,
+    minHeight: 36 // Fixed minimum height
   },
   categoryChipActive: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.primary
   },
   categoryIcon: {
-    fontSize: 16,
-    marginRight: 6,
+    fontSize: 14, // Reduced from 16
+    marginRight: 4
   },
   categoryName: {
-    fontSize: 13,
+    fontSize: 12, // Reduced from 13
     color: colors.textSecondary,
-    marginRight: 6,
+    marginRight: 4,
+    fontWeight: '500'
   },
   categoryNameActive: {
     color: colors.white,
-    fontWeight: '600',
+    fontWeight: '600'
   },
   categoryCount: {
     backgroundColor: colors.grayLight,
-    paddingHorizontal: 6,
+    paddingHorizontal: 5,
     paddingVertical: 2,
-    borderRadius: 12,
+    borderRadius: 10,
+    minWidth: 20,
+    alignItems: 'center'
   },
   categoryCountActive: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.white
   },
   categoryCountText: {
-    fontSize: 11,
+    fontSize: 10, // Reduced from 11
     color: colors.textSecondary,
-    fontWeight: '600',
+    fontWeight: '600'
   },
   categoryCountTextActive: {
-    color: colors.primary,
+    color: colors.primary
   },
+
   productsList: {
     paddingHorizontal: 12,
-    paddingBottom: 20,
+    paddingBottom: 20
   },
   // Grid View Styles
   gridCard: {
@@ -794,17 +946,17 @@ const styles = {
     shadowColor: colors.shadowColor,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
-    shadowRadius: 4,
+    shadowRadius: 4
   },
   gridCardImage: {
     height: 140,
     backgroundColor: colors.primaryLight + '20',
     justifyContent: 'center',
     alignItems: 'center',
-    position: 'relative',
+    position: 'relative'
   },
   productEmoji: {
-    fontSize: 60,
+    fontSize: 60
   },
   discountBadge: {
     position: 'absolute',
@@ -813,12 +965,12 @@ const styles = {
     backgroundColor: colors.error,
     paddingHorizontal: 8,
     paddingVertical: 4,
-    borderRadius: 12,
+    borderRadius: 12
   },
   discountText: {
     color: colors.white,
     fontSize: 10,
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   },
   featuredBadge: {
     position: 'absolute',
@@ -829,67 +981,67 @@ const styles = {
     paddingVertical: 4,
     borderRadius: 12,
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   featuredText: {
     color: colors.white,
     fontSize: 9,
     fontWeight: 'bold',
-    marginLeft: 3,
+    marginLeft: 3
   },
   gridCardContent: {
-    padding: 12,
+    padding: 12
   },
   productName: {
     fontSize: 14,
     fontWeight: '600',
     color: colors.textPrimary,
-    marginBottom: 6,
+    marginBottom: 6
   },
   priceContainer: {
     flexDirection: 'row',
     alignItems: 'baseline',
-    marginBottom: 6,
+    marginBottom: 6
   },
   currentPrice: {
     fontSize: 16,
     fontWeight: 'bold',
     color: colors.success,
-    marginRight: 6,
+    marginRight: 6
   },
   originalPrice: {
     fontSize: 12,
     color: colors.textDisabled,
-    textDecorationLine: 'line-through',
+    textDecorationLine: 'line-through'
   },
   ratingContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 6,
+    marginBottom: 6
   },
   ratingText: {
     fontSize: 12,
     color: colors.textSecondary,
     marginLeft: 3,
-    marginRight: 3,
+    marginRight: 3
   },
   reviewsText: {
     fontSize: 10,
-    color: colors.textDisabled,
+    color: colors.textDisabled
   },
   stockContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   stockIndicator: {
     width: 8,
     height: 8,
     borderRadius: 4,
-    marginRight: 5,
+    marginRight: 5
   },
   stockText: {
     fontSize: 10,
-    color: colors.textSecondary,
+    color: colors.textSecondary
   },
   gridCardActions: {
     flexDirection: 'row',
@@ -899,21 +1051,21 @@ const styles = {
     paddingBottom: 12,
     borderTopWidth: 1,
     borderTopColor: colors.borderLight,
-    paddingTop: 10,
+    paddingTop: 10
   },
   editButton: {
-    padding: 6,
+    padding: 6
   },
   // List View Styles
   listCard: {
     backgroundColor: colors.white,
     borderRadius: 12,
     marginBottom: 10,
-    elevation: 2,
+    elevation: 2
   },
   listCardTouchable: {
     flexDirection: 'row',
-    padding: 12,
+    padding: 12
   },
   listCardImage: {
     width: 80,
@@ -922,10 +1074,10 @@ const styles = {
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    position: 'relative',
+    position: 'relative'
   },
   listProductEmoji: {
-    fontSize: 40,
+    fontSize: 40
   },
   listDiscountBadge: {
     position: 'absolute',
@@ -934,89 +1086,89 @@ const styles = {
     backgroundColor: colors.error,
     paddingHorizontal: 5,
     paddingVertical: 2,
-    borderRadius: 8,
+    borderRadius: 8
   },
   listDiscountText: {
     color: colors.white,
     fontSize: 9,
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   },
   listCardContent: {
     flex: 1,
-    marginLeft: 12,
+    marginLeft: 12
   },
   listCardHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 4,
+    marginBottom: 4
   },
   listProductName: {
     fontSize: 16,
     fontWeight: '600',
     color: colors.textPrimary,
-    flex: 1,
+    flex: 1
   },
   listSwitch: {
-    transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }],
+    transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }]
   },
   productSku: {
     fontSize: 11,
     color: colors.textDisabled,
-    marginBottom: 4,
+    marginBottom: 4
   },
   listPriceContainer: {
     flexDirection: 'row',
     alignItems: 'baseline',
-    marginBottom: 6,
+    marginBottom: 6
   },
   listCurrentPrice: {
     fontSize: 18,
     fontWeight: 'bold',
     color: colors.success,
-    marginRight: 8,
+    marginRight: 8
   },
   listOriginalPrice: {
     fontSize: 13,
     color: colors.textDisabled,
-    textDecorationLine: 'line-through',
+    textDecorationLine: 'line-through'
   },
   listMetaContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'space-between'
   },
   listRatingContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   listRatingText: {
     fontSize: 12,
     color: colors.textSecondary,
     marginLeft: 3,
-    marginRight: 3,
+    marginRight: 3
   },
   listReviewsText: {
     fontSize: 11,
-    color: colors.textDisabled,
+    color: colors.textDisabled
   },
   listStockContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   listStockIndicator: {
     width: 8,
     height: 8,
     borderRadius: 4,
-    marginRight: 5,
+    marginRight: 5
   },
   listStockText: {
     fontSize: 11,
-    color: colors.textSecondary,
+    color: colors.textSecondary
   },
   listCardActions: {
     justifyContent: 'center',
-    marginLeft: 8,
+    marginLeft: 8
   },
   listEditButton: {
     backgroundColor: colors.primary,
@@ -1024,26 +1176,26 @@ const styles = {
     height: 36,
     borderRadius: 18,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   // Modal Styles
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.9)',
+    backgroundColor: 'rgba(0,0,0,0.9)'
   },
   modalContent: {
     flex: 1,
-    backgroundColor: colors.white,
+    backgroundColor: colors.white
   },
   modalImageContainer: {
     height: 300,
     backgroundColor: colors.primaryLight + '20',
     justifyContent: 'center',
     alignItems: 'center',
-    position: 'relative',
+    position: 'relative'
   },
   modalEmoji: {
-    fontSize: 120,
+    fontSize: 120
   },
   modalCloseBtn: {
     position: 'absolute',
@@ -1054,46 +1206,46 @@ const styles = {
     height: 40,
     borderRadius: 20,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   modalBody: {
-    padding: 20,
+    padding: 20
   },
   modalProductName: {
     fontSize: 24,
     fontWeight: 'bold',
     color: colors.textPrimary,
-    marginBottom: 10,
+    marginBottom: 10
   },
   modalRatingRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 15,
+    marginBottom: 15
   },
   modalRating: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginRight: 10,
+    marginRight: 10
   },
   modalRatingText: {
     fontSize: 14,
     color: colors.textPrimary,
-    marginLeft: 4,
+    marginLeft: 4
   },
   modalReviews: {
     fontSize: 13,
     color: colors.textSecondary,
-    marginRight: 10,
+    marginRight: 10
   },
   modalSku: {
     backgroundColor: colors.grayLight,
     paddingHorizontal: 8,
     paddingVertical: 4,
-    borderRadius: 8,
+    borderRadius: 8
   },
   modalSkuText: {
     fontSize: 11,
-    color: colors.textSecondary,
+    color: colors.textSecondary
   },
   modalPriceRow: {
     flexDirection: 'row',
@@ -1101,19 +1253,19 @@ const styles = {
     marginBottom: 20,
     paddingBottom: 20,
     borderBottomWidth: 1,
-    borderBottomColor: colors.borderLight,
+    borderBottomColor: colors.borderLight
   },
   modalCurrentPrice: {
     fontSize: 28,
     fontWeight: 'bold',
     color: colors.success,
-    marginRight: 10,
+    marginRight: 10
   },
   modalOriginalPrice: {
     fontSize: 16,
     color: colors.textDisabled,
     textDecorationLine: 'line-through',
-    marginRight: 10,
+    marginRight: 10
   },
   modalDiscount: {
     backgroundColor: colors.error,
@@ -1122,7 +1274,7 @@ const styles = {
     borderRadius: 8,
     color: colors.white,
     fontSize: 12,
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   },
   modalInfoGrid: {
     flexDirection: 'row',
@@ -1130,41 +1282,41 @@ const styles = {
     marginBottom: 20,
     padding: 15,
     backgroundColor: colors.grayLight,
-    borderRadius: 12,
+    borderRadius: 12
   },
   modalInfoItem: {
-    alignItems: 'center',
+    alignItems: 'center'
   },
   modalInfoLabel: {
     fontSize: 11,
     color: colors.textSecondary,
     marginTop: 5,
-    marginBottom: 2,
+    marginBottom: 2
   },
   modalInfoValue: {
     fontSize: 13,
     fontWeight: '600',
-    color: colors.textPrimary,
+    color: colors.textPrimary
   },
   modalSection: {
-    marginBottom: 20,
+    marginBottom: 20
   },
   modalSectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     color: colors.textPrimary,
-    marginBottom: 10,
+    marginBottom: 10
   },
   modalDescription: {
     fontSize: 14,
     color: colors.textSecondary,
-    lineHeight: 20,
+    lineHeight: 20
   },
   modalActions: {
     flexDirection: 'row',
     gap: 10,
     marginTop: 20,
-    marginBottom: 30,
+    marginBottom: 30
   },
   modalEditButton: {
     flex: 1,
@@ -1174,12 +1326,12 @@ const styles = {
     backgroundColor: colors.primary,
     paddingVertical: 14,
     borderRadius: 10,
-    gap: 8,
+    gap: 8
   },
   modalEditButtonText: {
     color: colors.white,
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '600'
   },
   modalDeleteButton: {
     flex: 1,
@@ -1189,98 +1341,98 @@ const styles = {
     backgroundColor: colors.errorLight,
     paddingVertical: 14,
     borderRadius: 10,
-    gap: 8,
+    gap: 8
   },
   modalDeleteButtonText: {
     color: colors.error,
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '600'
   },
   // Delete Modal Styles
   deleteModalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.5)',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   deleteModalContent: {
     backgroundColor: colors.white,
     borderRadius: 20,
     padding: 20,
     width: width - 40,
-    alignItems: 'center',
+    alignItems: 'center'
   },
   deleteModalIcon: {
-    marginBottom: 15,
+    marginBottom: 15
   },
   deleteModalTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     color: colors.textPrimary,
-    marginBottom: 10,
+    marginBottom: 10
   },
   deleteModalText: {
     fontSize: 14,
     color: colors.textSecondary,
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: 20
   },
   deleteModalButtons: {
     flexDirection: 'row',
     gap: 10,
-    width: '100%',
+    width: '100%'
   },
   deleteModalCancelBtn: {
     flex: 1,
     paddingVertical: 12,
     alignItems: 'center',
     backgroundColor: colors.grayLight,
-    borderRadius: 10,
+    borderRadius: 10
   },
   deleteModalCancelText: {
     color: colors.textSecondary,
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '600'
   },
   deleteModalConfirmBtn: {
     flex: 1,
     paddingVertical: 12,
     alignItems: 'center',
     backgroundColor: colors.error,
-    borderRadius: 10,
+    borderRadius: 10
   },
   deleteModalConfirmText: {
     color: colors.white,
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '600'
   },
   emptyState: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 60,
+    paddingVertical: 60
   },
   emptyStateTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     color: colors.textPrimary,
     marginTop: 15,
-    marginBottom: 5,
+    marginBottom: 5
   },
   emptyStateText: {
     fontSize: 14,
     color: colors.textSecondary,
-    marginBottom: 20,
+    marginBottom: 20
   },
   emptyStateButton: {
     backgroundColor: colors.primary,
     paddingHorizontal: 20,
     paddingVertical: 10,
-    borderRadius: 25,
+    borderRadius: 25
   },
   emptyStateButtonText: {
     color: colors.white,
-    fontWeight: '600',
-  },
-};
+    fontWeight: '600'
+  }
+}
 
-export default ProductsScreen;
+export default ProductsScreen

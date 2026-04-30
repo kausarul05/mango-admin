@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons'
 import DashboardScreen from '../screens/DashboardScreen'
 import OrdersScreen from '../screens/OrdersScreen'
 import ProductsScreen from '../screens/ProductsScreen'
-// import ProfileScreen from '../screens/ProfileScreen';
+import ProfileScreen from '../screens/ProfileScreen'
 import colors from '../constants/colors'
 
 const Tab = createBottomTabNavigator()
@@ -59,11 +59,7 @@ const BottomTabNavigator = () => {
         component={PlaceholderScreen}
         initialParams={{ title: 'Products' }}
       /> */}
-      <Tab.Screen
-        name='Profile'
-        component={PlaceholderScreen}
-        initialParams={{ title: 'Profile' }}
-      />
+      <Tab.Screen name='Profile' component={ProfileScreen} />
       <Tab.Screen name='Orders' component={OrdersScreen} />
       <Tab.Screen name='Products' component={ProductsScreen} />
     </Tab.Navigator>
