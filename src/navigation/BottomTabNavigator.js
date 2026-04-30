@@ -6,6 +6,7 @@ import OrdersScreen from '../screens/OrdersScreen'
 import ProductsScreen from '../screens/ProductsScreen'
 import ProfileScreen from '../screens/ProfileScreen'
 import colors from '../constants/colors'
+import CategoriesScreen from '../screens/CategoriesScreen'
 
 const Tab = createBottomTabNavigator()
 
@@ -53,12 +54,19 @@ const BottomTabNavigator = () => {
       })}
     >
       <Tab.Screen name='Dashboard' component={DashboardScreen} />
-      {/* <Tab.Screen name="Orders" component={PlaceholderScreen} initialParams={{ title: 'Orders' }} /> */}
-      {/* <Tab.Screen
-        name='Products'
-        component={PlaceholderScreen}
-        initialParams={{ title: 'Products' }}
-      /> */}
+      <Tab.Screen
+        name='Categories'
+        component={CategoriesScreen}
+        options={{
+          tabBarIcon: ({ focused, color, size }) => (
+            <Ionicons
+              name={focused ? 'apps' : 'apps-outline'}
+              size={size}
+              color={color}
+            />
+          )
+        }}
+      />
       <Tab.Screen name='Profile' component={ProfileScreen} />
       <Tab.Screen name='Orders' component={OrdersScreen} />
       <Tab.Screen name='Products' component={ProductsScreen} />
