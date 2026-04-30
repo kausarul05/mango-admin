@@ -38,7 +38,7 @@ const LoginScreen = ({ navigation }) => {
         await AsyncStorage.setItem('userRole', 'admin');
         
         setLoading(false);
-        navigation.replace('Orders'); // Navigate to Orders screen
+        navigation.replace('Main'); // Navigate to Main screen
       } else {
         setLoading(false);
         Alert.alert('Login Failed', 'Invalid email or password');
